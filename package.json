@@ -7,12 +7,15 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome check",
-		"format": "biome check --write *"
+		"format": "biome check --write *",
+		"clean": "rimraf .next out"
 	},
 	"dependencies": {
 		"next": "14.2.7",
+		"punycode": "^2.3.1",
 		"react": "^18",
-		"react-dom": "^18"
+		"react-dom": "^18",
+		"rimraf": "^6.0.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
