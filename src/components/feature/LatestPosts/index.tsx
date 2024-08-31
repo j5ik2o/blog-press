@@ -1,17 +1,17 @@
 "use client";
 
-import { selectPosts, setPosts } from "@/lib/features/posts/slice";
+import { selectPosts, setPosts } from "@/lib/features/posts";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import type { LatestPostsProps } from "@/types/post";
 import Link from "next/link";
 import { useEffect } from "react";
 
-export default function LatestPosts({ initialPosts }: LatestPostsProps) {
+const LatestPosts = ({ initialPosts }: LatestPostsProps) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(selectPosts);
 
   useEffect(() => {
-    dispatch(setPosts(initialPosts));
+    initialPosts && dispatch(setPosts(initialPosts));
   }, [dispatch, initialPosts]);
 
   if (posts.length === 0) {
@@ -32,4 +32,6 @@ export default function LatestPosts({ initialPosts }: LatestPostsProps) {
       </ul>
     </div>
   );
-}
+};
+
+export default LatestPosts;
