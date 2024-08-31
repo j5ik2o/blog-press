@@ -1,32 +1,38 @@
+"use client";
+
 import Link from "next/link";
+import type {LatestPostsProps} from "@/types/post";
+import {selectPosts, setPosts} from "@/lib/features/posts/slice";
+import {useEffect} from "react";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 
-// 仮の記事データ型
-type Post = {
-  id: number;
-  title: string;
-  slug: string;
-};
+export default function LatestPosts({ initialPosts }: LatestPostsProps) {
+	const dispatch = useAppDispatch();
+	const posts = useAppSelector(selectPosts);
 
-// 仮の記事データ
-const latestPosts: Post[] = [
-  { id: 1, title: "サンプル記事1のタイトル", slug: "sample-post-1" },
-  { id: 2, title: "サンプル記事2のタイトル", slug: "sample-post-2" },
-  { id: 3, title: "サンプル記事3のタイトル", slug: "sample-post-3" },
-];
+	useEffect(() => {
+		dispatch(setPosts(initialPosts));
+	}, [dispatch, initialPosts]);
 
-export default function LatestPosts() {
-  return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-semibold">最新の記事</h2>
-      <ul className="space-y-2">
-        {latestPosts.map((post) => (
-          <li key={post.id}>
-            <Link href={`/blog/${post.slug}`} className="text-blue-600 hover:underline">
-              {post.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+	if (posts.length === 0) {
+		return <div>投稿がありません。</div>;
+	}
+
+	return (
+		<div className="space-y-4">
+			<h2 className="text-2xl font-semibold">最新の記事</h2>
+			<ul className="space-y-2">
+				{posts.map((post) => (
+					<li key={post.id}>
+						<Link
+							href={`/blog/${post.slug}`}
+							className="text-blue-600 hover:underline"
+						>
+							{post.title}
+						</Link>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
 }
