@@ -1,21 +1,13 @@
 "use client";
 
-import { postsAtom } from "@/lib/atom/posts";
-import { useAtom } from "jotai";
 import Link from "next/link";
+import {Post} from "@/types/post";
 
-const LatestPosts = () => {
-  const [postsLoadable] = useAtom(postsAtom);
+type LatestPostsProps = {
+  posts: Post[];
+};
 
-  if (postsLoadable.state === "loading") {
-    return <div>投稿を読み込んでいます...</div>;
-  }
-
-  if (postsLoadable.state === "hasError") {
-    return <div>エラーが発生しました: {(postsLoadable.error as Error).message}</div>;
-  }
-
-  const posts = postsLoadable.data;
+const LatestPosts = ({ posts } : LatestPostsProps) => {
 
   if (posts.length === 0) {
     return <div>投稿がありません。</div>;
