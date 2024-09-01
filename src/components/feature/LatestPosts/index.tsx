@@ -1,18 +1,21 @@
 "use client";
 
-import { selectPosts, setPosts } from "@/lib/features/posts";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import type { LatestPostsProps } from "@/types/post";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { postsAtom } from "@/lib/atom/posts";
 
-const LatestPosts = ({ initialPosts }: LatestPostsProps) => {
-  const dispatch = useAppDispatch();
-  const posts = useAppSelector(selectPosts);
+const LatestPosts = () => {
+  const [postsLoadable] = useAtom(postsAtom);
 
-  useEffect(() => {
-    initialPosts && dispatch(setPosts(initialPosts));
-  }, [dispatch, initialPosts]);
+  if (postsLoadable.state === "loading") {
+    return <div>投稿を読み込んでいます...</div>;
+  }
+
+  if (postsLoadable.state === "hasError") {
+    return <div>エラーが発生しました: {(postsLoadable.error as Error).message}</div>;
+  }
+
+  const posts = postsLoadable.data;
 
   if (posts.length === 0) {
     return <div>投稿がありません。</div>;
