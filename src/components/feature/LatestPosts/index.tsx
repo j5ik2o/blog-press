@@ -1,14 +1,13 @@
 "use client";
 
+import type { Post } from "@/types/post";
 import Link from "next/link";
-import {Post} from "@/types/post";
 
 type LatestPostsProps = {
   posts: Post[];
 };
 
-const LatestPosts = ({ posts } : LatestPostsProps) => {
-
+const LatestPosts = ({ posts }: LatestPostsProps) => {
   if (posts.length === 0) {
     return <div>投稿がありません。</div>;
   }
