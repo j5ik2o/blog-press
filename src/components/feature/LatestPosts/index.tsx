@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useAtom } from "jotai";
 import { postsAtom } from "@/lib/atom/posts";
+import { useAtom } from "jotai";
+import Link from "next/link";
 
 const LatestPosts = () => {
   const [postsLoadable] = useAtom(postsAtom);

@@ -1,10 +1,10 @@
-import type {Metadata} from "next";
-import {Noto_Sans_JP} from "next/font/google";
+import type { Metadata } from "next";
+import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import {cn} from "@/lib/utils";
-import {Provider} from "jotai";
+import { cn } from "@/lib/utils";
+import { Provider } from "jotai";
 
 const fontNotoSansJP = Noto_Sans_JP({ subsets: ["latin"] });
 
