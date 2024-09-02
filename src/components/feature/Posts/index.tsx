@@ -1,20 +1,19 @@
-"use client";
-
 import type { Post } from "@/types/post";
 import Link from "next/link";
 
-type LatestPostsProps = {
+type Props = {
+    caption: string;
   posts: Post[];
 };
 
-const LatestPosts = ({ posts }: LatestPostsProps) => {
+const Posts = ({ caption, posts }: Props) => {
   if (posts.length === 0) {
     return <div>投稿がありません。</div>;
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-semibold">最新の記事</h2>
+      <h2 className="text-2xl font-semibold">{caption}</h2>
       <ul className="space-y-2">
         {posts.map((post) => (
           <li key={post.id}>
@@ -28,4 +27,4 @@ const LatestPosts = ({ posts }: LatestPostsProps) => {
   );
 };
 
-export default LatestPosts;
+export default Posts;

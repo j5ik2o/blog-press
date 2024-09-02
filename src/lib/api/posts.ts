@@ -1,8 +1,8 @@
+import { BASE_URL } from "@/lib/config";
 import type { Post } from "@/types/post";
-import {Config} from "@/lib/config";
 
 export const fetchPosts = async (): Promise<Post[]> => {
-  const url = `${Config.BASE_URL}/api/posts`;
+  const url = `${BASE_URL}/api/posts`;
 
   const response = await fetch(url);
   if (!response.ok) {
