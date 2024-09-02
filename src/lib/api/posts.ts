@@ -1,8 +1,8 @@
 import type { Post } from "@/types/post";
+import {Config} from "@/lib/config";
 
 export const fetchPosts = async (): Promise<Post[]> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
-  const url = `${baseUrl}/api/posts`;
+  const url = `${Config.BASE_URL}/api/posts`;
 
   const response = await fetch(url);
   if (!response.ok) {
