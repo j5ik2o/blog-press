@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model UserAccount {
+  id              String      @id @db.VarChar(64)
+  disabled        Boolean     @db.TinyInt
+  name            String      @db.Text
+  createdAt       DateTime    @db.DateTime(0) @map("created_at")
+  updatedAt       DateTime    @db.DateTime(0) @map("updated_at")
+
+  blogSite        BlogSite[]
+
+  @@map("user_account")
+}
+
+model BlogSite {
+  id              String      @id @db.VarChar(64)
+  disabled        Boolean     @db.TinyInt
+  name            String      @db.Text
+  description     String      @db.Text
+  ownerAccountId  String      @db.VarChar(64) @map("owner_account_id")
+  ownerAccount    UserAccount @relation(fields: [ownerAccountId], references: [id])
+  createdAt       DateTime    @db.DateTime(0) @map("created_at")
+  updatedAt       DateTime    @db.DateTime(0) @map("updated_at")
+
+  blogEntries     BlogEntry[]
+  categories      Category[]
+
+  @@map("blog_site")
+  @@index([ownerAccountId])
+}
+
+model BlogEntry {
+  id              String      @id @db.VarChar(64)
+  disabled        Boolean     @db.TinyInt
+  blogSiteId      String      @db.VarChar(64) @map("blog_site_id")
+  blogSite        BlogSite    @relation(fields: [blogSiteId], references: [id])
+  categoryId      String      @db.VarChar(64)
+  category        Category    @relation(fields: [categoryId], references: [id])
+  title           String      @db.Text
+  slug            String      @db.VarChar(255)
+  body            String      @db.LongText
+  createdAt       DateTime    @db.DateTime(0) @map("created_at")
+  updatedAt       DateTime    @db.DateTime(0) @map("updated_at")
+
+  @@map("blog_entry")
+  @@unique([blogSiteId, slug])
+  @@index([blogSiteId])
+}
+
+model Category {
+  id              String      @id @db.VarChar(64)
+  parentId        String?     @db.VarChar(64) @map("parent_id")
+  parent          Category?   @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children        Category[]  @relation("CategoryToCategory")
+  blogSiteId      String      @db.VarChar(64) @map("blog_site_id")
+  blogSite        BlogSite    @relation(fields: [blogSiteId], references: [id])
+  name            String      @db.VarChar(255)
+  slug            String      @db.VarChar(255)
+  createdAt       DateTime    @db.DateTime(0) @map("created_at")
+  updatedAt       DateTime    @db.DateTime(0) @map("updated_at")
+
+  blogEntries     BlogEntry[]
+  @@map("category")
+  @@unique([blogSiteId, slug])
+  @@index([blogSiteId])
+}
