@@ -10,8 +10,9 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+*/.next/
+*/out/
+*/.turbo/
 
 # production
 /build
@@ -25,6 +26,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.env
 # local env files
 .env*.local
 
@@ -33,8 +35,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+packages/frontend/next-env.d.ts
 
-package-lock.json
+pnpm-lock.yaml
 
 .idea/
